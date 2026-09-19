@@ -316,7 +316,7 @@
 
   <div class="container">
     <header>
-      <h1 class="glitch">CYBER_SYNTH // v3.2</h1>
+      <h1 class="glitch">CYBER_SYNTH // v3.3</h1>
       <div id="statusBadge" class="status-badge">SYSTEM OFFLINE</div>
     </header>
 
@@ -402,6 +402,7 @@
       <button id="nextBtn" class="cyber-btn secondary">[ NEXT TRACK ]</button>
       <button id="bpmLockBtn" class="cyber-btn">[ BPM LOCK: OFF ]</button>
       <button id="cycleLockBtn" class="cyber-btn">[ CYCLE LOCK: OFF ]</button>
+      <button id="drumFillBtn" class="cyber-btn">[ DRUM FILL: OFF ]</button>
     </div>
   </div>
 
@@ -430,9 +431,10 @@
     let timerID = null;
     let animFrameId = null;
 
-    // Locks
+    // Locks & Modes
     let isBpmLocked = false;
     let isCycleLocked = false;
+    let isDrumFillActive = false;
 
     // Track State (60-second cycle)
     let trackState = {
@@ -795,17 +797,39 @@
       const secondsPerBeat = 60.0 / trackState.bpm;
       const stepTime = secondsPerBeat / 4;
 
-      if (step % 4 === 0 || (step === 14 && Math.random() > 0.5)) {
-        triggerKick(time);
+      // Percussion Pattern Scheduling
+      if (isDrumFillActive) {
+        // High-energy syncopated Drum Fill Pattern
+        const s = step % 16;
+        
+        // Syncopated heavy kicks
+        if (s === 0 || s === 2 || s === 3 || s === 6 || s === 8 || s === 10 || s === 11 || s === 14) {
+          triggerKick(time);
+        }
+
+        // Rapid snare fills & rolls
+        if (s === 4 || s === 6 || s === 7 || s === 12 || s === 13 || s === 14 || s === 15) {
+          triggerSnare(time);
+        }
+
+        // Fast accents on hi-hat
+        triggerHat(time, s % 2 === 0);
+
+      } else {
+        // Standard main drum beat logic
+        if (step % 4 === 0 || (step === 14 && Math.random() > 0.5)) {
+          triggerKick(time);
+        }
+
+        if (step === 4 || step === 12) {
+          triggerSnare(time);
+        }
+
+        const isAccent = (step % 2 === 0);
+        triggerHat(time, isAccent);
       }
 
-      if (step === 4 || step === 12) {
-        triggerSnare(time);
-      }
-
-      const isAccent = (step % 2 === 0);
-      triggerHat(time, isAccent);
-
+      // Synths & Bass Sequence
       const bassNote = trackState.bassPattern[step % 16];
       triggerBass(time, bassNote, stepTime * 1.2);
 
@@ -927,6 +951,7 @@
     const nextBtn = document.getElementById('nextBtn');
     const bpmLockBtn = document.getElementById('bpmLockBtn');
     const cycleLockBtn = document.getElementById('cycleLockBtn');
+    const drumFillBtn = document.getElementById('drumFillBtn');
     const statusBadge = document.getElementById('statusBadge');
 
     // Controls Sliders
@@ -1004,6 +1029,18 @@
         cycleLockBtn.classList.remove('toggle-on');
       }
       updateTimerUI();
+    });
+
+    // Drum Fill Toggle Button
+    drumFillBtn.addEventListener('click', () => {
+      isDrumFillActive = !isDrumFillActive;
+      if (isDrumFillActive) {
+        drumFillBtn.textContent = "[ DRUM FILL: ON ]";
+        drumFillBtn.classList.add('toggle-on');
+      } else {
+        drumFillBtn.textContent = "[ DRUM FILL: OFF ]";
+        drumFillBtn.classList.remove('toggle-on');
+      }
     });
 
     // Power Toggle
