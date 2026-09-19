@@ -9,6 +9,7 @@
       --neon-red: #ff0055;
       --neon-cyan: #00f3ff;
       --neon-yellow: #ffe600;
+      --neon-green: #00ff66;
       --bg-dark: #07070a;
       --panel-bg: rgba(16, 16, 24, 0.85);
       --border-color: #262638;
@@ -31,8 +32,9 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      overflow-x: hidden;
       position: relative;
+      padding: 20px 0;
     }
 
     /* CRT Scanline Overlay */
@@ -60,7 +62,7 @@
 
     .container {
       width: 90%;
-      max-width: 900px;
+      max-width: 950px;
       background: var(--panel-bg);
       border: 1px solid var(--border-color);
       box-shadow: 0 0 30px rgba(255, 0, 85, 0.15), inset 0 0 15px rgba(0, 243, 255, 0.05);
@@ -149,6 +151,70 @@
       text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
     }
 
+    /* Sliders Control Panel */
+    .sliders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+      background: rgba(10, 10, 15, 0.6);
+      border: 1px solid var(--border-color);
+      padding: 15px;
+      border-radius: 4px;
+    }
+
+    .slider-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      color: #aaa;
+      text-transform: uppercase;
+    }
+
+    .slider-header span.val {
+      color: var(--neon-cyan);
+      font-weight: bold;
+    }
+
+    .cyber-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: #141420;
+      border: 1px solid var(--border-color);
+      outline: none;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+
+    .cyber-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      background: var(--neon-cyan);
+      box-shadow: 0 0 8px var(--neon-cyan);
+      cursor: pointer;
+      border-radius: 2px;
+    }
+
+    .cyber-slider::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      background: var(--neon-cyan);
+      box-shadow: 0 0 8px var(--neon-cyan);
+      cursor: pointer;
+      border: none;
+      border-radius: 2px;
+    }
+
     /* Canvas Visualizer */
     .visualizer-box {
       position: relative;
@@ -170,55 +236,68 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
       flex-wrap: wrap;
-      padding-top: 10px;
+      padding-top: 5px;
     }
 
     .cyber-btn {
       background: transparent;
       color: var(--neon-cyan);
       font-family: var(--font-family);
-      font-size: 1rem;
+      font-size: 0.85rem;
       font-weight: bold;
-      letter-spacing: 2px;
-      padding: 15px 30px;
+      letter-spacing: 1.5px;
+      padding: 12px 20px;
       border: 2px solid var(--neon-cyan);
       cursor: pointer;
       position: relative;
       transition: all 0.2s ease;
       clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-      box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+      box-shadow: 0 0 12px rgba(0, 243, 255, 0.2);
     }
 
     .cyber-btn:hover {
       background: var(--neon-cyan);
       color: #000;
-      box-shadow: 0 0 25px rgba(0, 243, 255, 0.6);
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.6);
     }
 
     .cyber-btn.active {
       color: var(--neon-red);
       border-color: var(--neon-red);
-      box-shadow: 0 0 15px rgba(255, 0, 85, 0.2);
+      box-shadow: 0 0 12px rgba(255, 0, 85, 0.2);
     }
 
     .cyber-btn.active:hover {
       background: var(--neon-red);
       color: #000;
-      box-shadow: 0 0 25px rgba(255, 0, 85, 0.6);
+      box-shadow: 0 0 20px rgba(255, 0, 85, 0.6);
     }
 
     .cyber-btn.secondary {
       color: var(--neon-yellow);
       border-color: var(--neon-yellow);
-      box-shadow: 0 0 15px rgba(255, 230, 0, 0.2);
+      box-shadow: 0 0 12px rgba(255, 230, 0, 0.2);
     }
 
     .cyber-btn.secondary:hover {
       background: var(--neon-yellow);
       color: #000;
-      box-shadow: 0 0 25px rgba(255, 230, 0, 0.6);
+      box-shadow: 0 0 20px rgba(255, 230, 0, 0.6);
+    }
+
+    .cyber-btn.toggle-on {
+      background: var(--neon-yellow);
+      color: #000;
+      box-shadow: 0 0 18px rgba(255, 230, 0, 0.6);
+    }
+
+    .cyber-btn.lock-on {
+      background: var(--neon-green);
+      color: #000;
+      border-color: var(--neon-green);
+      box-shadow: 0 0 18px rgba(0, 255, 102, 0.6);
     }
 
     /* Glitch Animation Text */
@@ -237,7 +316,7 @@
 
   <div class="container">
     <header>
-      <h1 class="glitch">CYBER_SYNTH // v3.1</h1>
+      <h1 class="glitch">CYBER_SYNTH // v3.2</h1>
       <div id="statusBadge" class="status-badge">SYSTEM OFFLINE</div>
     </header>
 
@@ -261,15 +340,68 @@
       </div>
     </div>
 
+    <!-- Live Parameters Control Sliders -->
+    <div class="sliders-grid">
+      <div class="slider-group">
+        <div class="slider-header">
+          <span>Tempo / BPM</span>
+          <span id="bpmValDisplay" class="val">135</span>
+        </div>
+        <input type="range" id="bpmSlider" class="cyber-slider" min="80" max="180" value="135" step="1">
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-header">
+          <span>Master Volume</span>
+          <span id="masterVolValDisplay" class="val">75%</span>
+        </div>
+        <input type="range" id="masterVolSlider" class="cyber-slider" min="0" max="1" value="0.75" step="0.01">
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-header">
+          <span>Synths Volume</span>
+          <span id="synthVolValDisplay" class="val">100%</span>
+        </div>
+        <input type="range" id="synthVolSlider" class="cyber-slider" min="0" max="1.5" value="1.0" step="0.01">
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-header">
+          <span>Drums Volume</span>
+          <span id="drumsVolValDisplay" class="val">100%</span>
+        </div>
+        <input type="range" id="drumsVolSlider" class="cyber-slider" min="0" max="1.5" value="1.0" step="0.01">
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-header">
+          <span>Drive / Saturation</span>
+          <span id="driveValDisplay" class="val">25</span>
+        </div>
+        <input type="range" id="driveSlider" class="cyber-slider" min="0" max="80" value="25" step="1">
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-header">
+          <span>Bass Cutoff</span>
+          <span id="cutoffValDisplay" class="val">1200Hz</span>
+        </div>
+        <input type="range" id="cutoffSlider" class="cyber-slider" min="300" max="3500" value="1200" step="10">
+      </div>
+    </div>
+
     <!-- Oscilloscope Display -->
     <div class="visualizer-box">
       <canvas id="scopeCanvas"></canvas>
     </div>
 
-    <!-- Master Control Buttons -->
+    <!-- Control Buttons -->
     <div class="controls">
       <button id="toggleBtn" class="cyber-btn">[ INITIALIZE SYSTEM ]</button>
       <button id="nextBtn" class="cyber-btn secondary">[ NEXT TRACK ]</button>
+      <button id="bpmLockBtn" class="cyber-btn">[ BPM LOCK: OFF ]</button>
+      <button id="cycleLockBtn" class="cyber-btn">[ CYCLE LOCK: OFF ]</button>
     </div>
   </div>
 
@@ -289,13 +421,18 @@
 
     // --- AUDIO SYSTEM GLOBAL VARIABLES ---
     let ctx = null;
-    let masterGain, analyserNode, masterDistortion, synthBus, sidechainGain, drumsBus;
+    let masterGain, analyserNode, masterDistortion, synthBus, synthGainNode, sidechainGain, drumsBus, drumsGainNode;
     let noiseBuffer = null;
     
     let isPlaying = false;
     let currentStep = 0;
     let nextNoteTime = 0;
     let timerID = null;
+    let animFrameId = null;
+
+    // Locks
+    let isBpmLocked = false;
+    let isCycleLocked = false;
 
     // Track State (60-second cycle)
     let trackState = {
@@ -346,7 +483,7 @@
 
       // Master Chain
       masterGain = ctx.createGain();
-      masterGain.gain.value = 0.75;
+      masterGain.gain.value = parseFloat(document.getElementById('masterVolSlider').value);
 
       analyserNode = ctx.createAnalyser();
       analyserNode.fftSize = 1024;
@@ -355,18 +492,26 @@
       masterDistortion.curve = makeDistortionCurve(trackState.driveAmount);
       masterDistortion.oversample = '4x';
 
-      // Buses
+      // Buses & Sub-Gains
       synthBus = ctx.createGain();
-      sidechainGain = ctx.createGain();
-      drumsBus = ctx.createGain();
+      synthGainNode = ctx.createGain();
+      synthGainNode.gain.value = parseFloat(document.getElementById('synthVolSlider').value);
 
-      // Routing: Synths -> Sidechain Ducking -> Master Distortion -> Master Gain -> Analyser -> Output
-      synthBus.connect(sidechainGain);
+      sidechainGain = ctx.createGain();
+
+      drumsBus = ctx.createGain();
+      drumsGainNode = ctx.createGain();
+      drumsGainNode.gain.value = parseFloat(document.getElementById('drumsVolSlider').value);
+
+      // Routing: Synths -> Synth Gain -> Sidechain Ducking -> Master Distortion -> Master Gain -> Analyser -> Output
+      synthBus.connect(synthGainNode);
+      synthGainNode.connect(sidechainGain);
       sidechainGain.connect(masterDistortion);
       masterDistortion.connect(masterGain);
 
-      // Routing: Drums bypass sidechain to stay punchy
-      drumsBus.connect(masterGain);
+      // Routing: Drums -> Drums Gain -> Master Gain
+      drumsBus.connect(drumsGainNode);
+      drumsGainNode.connect(masterGain);
 
       masterGain.connect(analyserNode);
       analyserNode.connect(ctx.destination);
@@ -390,7 +535,11 @@
       const scaleIntervals = SCALES[trackState.scaleName];
       trackState.scaleNotes = scaleIntervals.map(i => trackState.rootMidi + i);
 
-      trackState.bpm = Math.floor(Math.random() * 21) + 125; // 125 - 145 BPM
+      // Only alter BPM if lock is not active
+      if (!isBpmLocked) {
+        trackState.bpm = Math.floor(Math.random() * 21) + 125; // 125 - 145 BPM
+      }
+      
       trackState.driveAmount = Math.floor(Math.random() * 30) + 15;
       trackState.leadInterval = LEAD_INTERVALS[Math.floor(Math.random() * LEAD_INTERVALS.length)];
       trackState.bassCutoff = Math.floor(Math.random() * 800) + 800;
@@ -425,9 +574,10 @@
       }
 
       updateHUDUI();
+      updateSlidersUI();
     }
 
-    // --- SYNTHESIS INSTRUMENTS ---
+    // --- SYNTHESIS INSTRUMENTS WITH MEMORY LEAK CLEANUP ---
 
     // 1. KICK DRUM
     function triggerKick(time) {
@@ -447,6 +597,12 @@
       osc.start(time);
       osc.stop(time + 0.25);
 
+      // Cleanup on end to avoid leaking nodes
+      osc.onended = () => {
+        osc.disconnect();
+        gain.disconnect();
+      };
+
       // Transient Click
       const click = ctx.createOscillator();
       const clickGain = ctx.createGain();
@@ -460,6 +616,11 @@
       clickGain.connect(drumsBus);
       click.start(time);
       click.stop(time + 0.015);
+
+      click.onended = () => {
+        click.disconnect();
+        clickGain.disconnect();
+      };
 
       // SIDECHAIN DUCKING
       sidechainGain.gain.cancelScheduledValues(time);
@@ -487,6 +648,12 @@
       noise.start(time);
       noise.stop(time + 0.2);
 
+      noise.onended = () => {
+        noise.disconnect();
+        filter.disconnect();
+        noiseGain.disconnect();
+      };
+
       const osc = ctx.createOscillator();
       osc.type = 'square';
       const oscGain = ctx.createGain();
@@ -502,6 +669,11 @@
 
       osc.start(time);
       osc.stop(time + 0.12);
+
+      osc.onended = () => {
+        osc.disconnect();
+        oscGain.disconnect();
+      };
     }
 
     // 3. HI-HAT
@@ -526,6 +698,12 @@
 
       noise.start(time);
       noise.stop(time + dur);
+
+      noise.onended = () => {
+        noise.disconnect();
+        filter.disconnect();
+        gain.disconnect();
+      };
     }
 
     // 4. SAWTOOTH "REESE" BASS
@@ -561,6 +739,13 @@
       osc2.start(time);
       osc1.stop(time + duration);
       osc2.stop(time + duration);
+
+      osc1.onended = () => {
+        osc1.disconnect();
+        osc2.disconnect();
+        filter.disconnect();
+        gain.disconnect();
+      };
     }
 
     // 5. AGGRESSIVE DUAL-SAW LEAD SYNTH
@@ -596,6 +781,13 @@
       osc2.start(time);
       osc1.stop(time + duration);
       osc2.stop(time + duration);
+
+      osc1.onended = () => {
+        osc1.disconnect();
+        osc2.disconnect();
+        filter.disconnect();
+        gain.disconnect();
+      };
     }
 
     // --- SEQUENCER & SCHEDULER ENGINE ---
@@ -630,8 +822,8 @@
         currentStep = (currentStep + 1) % 32;
       }
 
-      // 60-Second Cycle Rotation Check
-      if (ctx.currentTime - trackState.cycleStartTime >= 60) {
+      // 60-Second Cycle Rotation Check (Bypassed if Cycle Lock is active)
+      if (!isCycleLocked && ctx.currentTime - trackState.cycleStartTime >= 60) {
         generateNewTrackParameters();
       }
 
@@ -650,7 +842,7 @@
     resizeCanvas();
 
     function drawVisualizer() {
-      requestAnimationFrame(drawVisualizer);
+      animFrameId = requestAnimationFrame(drawVisualizer);
 
       if (!analyserNode) return;
 
@@ -701,9 +893,25 @@
       document.getElementById('hudDrive').textContent = `${trackState.driveAmount} SAT`;
     }
 
+    function updateSlidersUI() {
+      document.getElementById('bpmSlider').value = trackState.bpm;
+      document.getElementById('bpmValDisplay').textContent = trackState.bpm;
+
+      document.getElementById('driveSlider').value = trackState.driveAmount;
+      document.getElementById('driveValDisplay').textContent = trackState.driveAmount;
+
+      document.getElementById('cutoffSlider').value = trackState.bassCutoff;
+      document.getElementById('cutoffValDisplay').textContent = `${trackState.bassCutoff}Hz`;
+    }
+
     function updateTimerUI() {
       if (!ctx || !isPlaying) return;
       
+      if (isCycleLocked) {
+        document.getElementById('hudTimer').textContent = "LOCKED";
+        return;
+      }
+
       const elapsed = ctx.currentTime - trackState.cycleStartTime;
       const remaining = Math.max(0, 60 - Math.floor(elapsed));
       const mins = String(Math.floor(remaining / 60)).padStart(2, '0');
@@ -714,11 +922,91 @@
 
     setInterval(updateTimerUI, 500);
 
-    // --- INTERACTIVE CONTROLLERS ---
+    // --- INTERACTIVE CONTROLLERS & EVENT LISTENERS ---
     const toggleBtn = document.getElementById('toggleBtn');
     const nextBtn = document.getElementById('nextBtn');
+    const bpmLockBtn = document.getElementById('bpmLockBtn');
+    const cycleLockBtn = document.getElementById('cycleLockBtn');
     const statusBadge = document.getElementById('statusBadge');
 
+    // Controls Sliders
+    const bpmSlider = document.getElementById('bpmSlider');
+    const masterVolSlider = document.getElementById('masterVolSlider');
+    const synthVolSlider = document.getElementById('synthVolSlider');
+    const drumsVolSlider = document.getElementById('drumsVolSlider');
+    const driveSlider = document.getElementById('driveSlider');
+    const cutoffSlider = document.getElementById('cutoffSlider');
+
+    // BPM Slider
+    bpmSlider.addEventListener('input', (e) => {
+      trackState.bpm = parseInt(e.target.value, 10);
+      document.getElementById('bpmValDisplay').textContent = trackState.bpm;
+      document.getElementById('hudBpm').textContent = `${trackState.bpm} BPM`;
+    });
+
+    // Master Volume Slider
+    masterVolSlider.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      if (masterGain) masterGain.gain.value = val;
+      document.getElementById('masterVolValDisplay').textContent = `${Math.round(val * 100)}%`;
+    });
+
+    // Synth Volume Slider
+    synthVolSlider.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      if (synthGainNode) synthGainNode.gain.value = val;
+      document.getElementById('synthVolValDisplay').textContent = `${Math.round(val * 100)}%`;
+    });
+
+    // Drums Volume Slider
+    drumsVolSlider.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      if (drumsGainNode) drumsGainNode.gain.value = val;
+      document.getElementById('drumsVolValDisplay').textContent = `${Math.round(val * 100)}%`;
+    });
+
+    // Drive Slider
+    driveSlider.addEventListener('input', (e) => {
+      trackState.driveAmount = parseInt(e.target.value, 10);
+      document.getElementById('driveValDisplay').textContent = trackState.driveAmount;
+      document.getElementById('hudDrive').textContent = `${trackState.driveAmount} SAT`;
+      if (masterDistortion) {
+        masterDistortion.curve = makeDistortionCurve(trackState.driveAmount);
+      }
+    });
+
+    // Bass Cutoff Slider
+    cutoffSlider.addEventListener('input', (e) => {
+      trackState.bassCutoff = parseInt(e.target.value, 10);
+      document.getElementById('cutoffValDisplay').textContent = `${trackState.bassCutoff}Hz`;
+    });
+
+    // BPM Lock Toggle Button
+    bpmLockBtn.addEventListener('click', () => {
+      isBpmLocked = !isBpmLocked;
+      if (isBpmLocked) {
+        bpmLockBtn.textContent = "[ BPM LOCK: ON ]";
+        bpmLockBtn.classList.add('lock-on');
+      } else {
+        bpmLockBtn.textContent = "[ BPM LOCK: OFF ]";
+        bpmLockBtn.classList.remove('lock-on');
+      }
+    });
+
+    // Cycle Lock Toggle Button
+    cycleLockBtn.addEventListener('click', () => {
+      isCycleLocked = !isCycleLocked;
+      if (isCycleLocked) {
+        cycleLockBtn.textContent = "[ CYCLE LOCK: ON ]";
+        cycleLockBtn.classList.add('toggle-on');
+      } else {
+        cycleLockBtn.textContent = "[ CYCLE LOCK: OFF ]";
+        cycleLockBtn.classList.remove('toggle-on');
+      }
+      updateTimerUI();
+    });
+
+    // Power Toggle
     toggleBtn.addEventListener('click', async () => {
       if (!ctx) {
         initAudio();
@@ -750,7 +1038,7 @@
       }
     });
 
-    // MANUAL SKIP / NEXT TRACK BUTTON
+    // Manual Skip / Next Track Button
     nextBtn.addEventListener('click', async () => {
       if (!ctx) {
         initAudio();
@@ -763,7 +1051,8 @@
       generateNewTrackParameters();
     });
 
-    // Start Visualizer Loop
+    // Start Visualizer Loop safely
+    cancelAnimationFrame(animFrameId);
     drawVisualizer();
   </script>
 </body>
